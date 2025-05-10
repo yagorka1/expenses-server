@@ -3,12 +3,13 @@ import { authRouter } from './routes/auth';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
-import { dataBaseConfig } from './config/dataBaseConfig';
 import { errorMiddleware } from './middlewares/errors/error';
 import { profileRouter } from './routes/profile';
 import { authMiddleware } from './middlewares/auth-middleware';
 import { currenciesRouter } from './routes/currencies';
 import { categoriesRouter } from './routes/categories';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
@@ -38,5 +39,6 @@ try {
     console.log(`Connected successfully on port ${ port }`);
   });
 } catch (error) {
-  console.error(`Error occured: ${ error.message }`);
+  // @ts-ignore
+  console.error(`Error occured: ${ error?.message }`);
 }
