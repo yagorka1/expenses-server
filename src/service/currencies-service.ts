@@ -10,7 +10,7 @@ class CurrenciesService {
   async getCurrenciesList(): Promise<CurrencyModel[]> {
     const currencies = await CurrencySchema.find();
 
-    return currencies.map((c) => new CurrencyModel({ ...c.toObject(), id: c._id.toString() }));
+    return currencies.map((c: any) => new CurrencyModel({ ...c.toObject(), id: c._id.toString() }));
   }
 
   async getCurrencyByCode(code: string): Promise<CurrencyModel> {
