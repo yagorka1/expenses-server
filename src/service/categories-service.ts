@@ -65,10 +65,9 @@ class CategoriesService {
       const categorySchema = await CategorySchema.create({ ...categoryData });
 
       return new CategoryModel({
-        ...categorySchema.toObject(),
+        ...(categorySchema.toObject() as CategorySchemaInterface),
         _id: categorySchema._id.toString(),
       });
-
     } finally {
 
     }
@@ -88,11 +87,11 @@ class CategoriesService {
       }
 
       const subcategorySchema = await SubcategorySchema.create({ ...subcategoryData });
-      // return new SubcategoryModel(subcategorySchema);
+
       return new SubcategoryModel({
-        ...subcategorySchema.toObject(),
+        ...(subcategorySchema.toObject() as SubcategorySchemaInterface),
         _id: subcategorySchema._id.toString(),
-        categoryId: subcategorySchema.categoryId.toString(),
+        categoryId: (subcategorySchema.toObject() as SubcategorySchemaInterface).categoryId.toString(),
       });
 
     } finally {

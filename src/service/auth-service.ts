@@ -4,6 +4,7 @@ import { UserSchema } from '../models/db/user-schema';
 import { UserModel } from '../models/user/user-model';
 import { DEFAULT_CURRENCY_CODE } from '../config/currencies';
 import { Roles } from '../enums/roles';
+import { UserSchemaInterface } from '../interfaces/user/user-schema-interface';
 
 const bcrypt = require('bcrypt');
 
@@ -20,7 +21,7 @@ class AuthService {
     const user = await UserSchema.create({ email, password: hashPassword, firstName, lastName, role: Roles.Admin, defaultCurrencyCode: DEFAULT_CURRENCY_CODE });
 
     const userDto = new UserModel({
-      ...user.toObject(),
+      ...(user.toObject() as UserSchemaInterface),
       _id: user._id.toString(),
     });
 
