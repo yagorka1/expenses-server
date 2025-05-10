@@ -1,4 +1,4 @@
-export function filterDataHelper(params) {
+export function filterDataHelper(params: any) {
   delete params.sortField;
   delete params.sortDesc;
 

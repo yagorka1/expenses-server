@@ -11,10 +11,13 @@ import { currenciesRouter } from './routes/currencies';
 import { categoriesRouter } from './routes/categories';
 
 const app: Application = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-mongoose.connect(dataBaseConfig.mongoURI).then(() => console.log('Connected to MongoDB'))
-  .catch((error) => console.log(error));
+if (process.env.MONGODB_URI) {
+  mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.log(error));
+}
+
 
 // Body parsing Middleware
 app.use(express.json());

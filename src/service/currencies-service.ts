@@ -23,7 +23,7 @@ class CurrenciesService {
     return new CurrencyModel(currency);
   }
 
-  async getCurrencyRatesDynamic(currencyCode: string, startDate: string, endDate): Promise<CurrencyRateModel[]> {
+  async getCurrencyRatesDynamic(currencyCode: string, startDate: string, endDate: string): Promise<CurrencyRateModel[]> {
     const currencies: CurrencyModel[] = await this.getCurrenciesList();
 
     const url: string = `https://www.nbrb.by/API/ExRates/Rates/Dynamics/${currencyCode}?startDate=${startDate}&endDate=${endDate}`;
