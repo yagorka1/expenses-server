@@ -1,5 +1,6 @@
 import { ApiError } from '../exceptions/api-error';
 
+// @ts-ignore
 export function checkRateDateHelper(createdAt, rateDate) {
   // @ts-ignore
   const diffDate = createdAt - new Date(rateDate);
