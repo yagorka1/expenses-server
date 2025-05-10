@@ -3,5 +3,5 @@ export interface SubcategorySchemaInterface {
   categoryId: string;
   name: string;
   description: string;
-  icon: string;
+  icon?: string;
 }

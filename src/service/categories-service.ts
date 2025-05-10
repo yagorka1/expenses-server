@@ -7,6 +7,7 @@ import { CreateSubcategoryInterface } from '../interfaces/categories/create-subc
 import { SubcategoryModel } from '../models/category/subcategory-model';
 import { SubcategorySchema } from '../models/db/subcategory-schema';
 import { SubcategorySchemaInterface } from '../interfaces/categories/subcategory-schema-interface';
+import { UserModel } from '../models/user/user-model';
 
 class CategoriesService {
   async getCategoriesList(): Promise<CategoryModel[]> {
@@ -20,7 +21,7 @@ class CategoriesService {
 
   async getCategoryById(categoryId: string): Promise<CategoryModel> {
     try {
-      const category: CategorySchemaInterface = await CategorySchema.findOne({ _id: categoryId });
+      const category: CategorySchemaInterface | null = await CategorySchema.findOne({ _id: categoryId });
 
       if (!category) {
         throw ApiError.BadRequest('Category not found');
@@ -42,7 +43,7 @@ class CategoriesService {
 
   async getSubcategoryById(subcategoryId: string): Promise<SubcategoryModel> {
     try {
-      const subcategory: SubcategorySchemaInterface = await SubcategorySchema.findOne({ _id: subcategoryId });
+      const subcategory: SubcategorySchemaInterface | null = await SubcategorySchema.findOne({ _id: subcategoryId });
 
       if (!subcategory) {
         throw ApiError.BadRequest('Category not found');
@@ -55,14 +56,18 @@ class CategoriesService {
 
   async createCategory(categoryData: CreateCategoryInterface): Promise<CategoryModel> {
     try {
-      const category: CategorySchemaInterface = await CategorySchema.findOne({ name: categoryData.name });
+      const category: CategorySchemaInterface | null = await CategorySchema.findOne({ name: categoryData.name });
 
       if (category) {
         throw ApiError.BadRequest('Category has already exist');
       }
 
       const categorySchema = await CategorySchema.create({ ...categoryData });
-      return new CategoryModel(categorySchema);
+
+      return new CategoryModel({
+        ...categorySchema.toObject(),
+        _id: categorySchema._id.toString(),
+      });
 
     } finally {
 
@@ -70,20 +75,25 @@ class CategoriesService {
   }
   async createSubcategory(subcategoryData: CreateSubcategoryInterface): Promise<SubcategoryModel> {
     try {
-      const category: CategorySchemaInterface = await CategorySchema.findOne({ _id: subcategoryData.categoryId });
+      const category: CategorySchemaInterface | null = await CategorySchema.findOne({ _id: subcategoryData.categoryId });
 
       if (!category) {
         throw ApiError.BadRequest('Category has not exist');
       }
 
-      const subcategory: SubcategorySchemaInterface = await SubcategorySchema.findOne({ name: subcategoryData.name });
+      const subcategory: SubcategorySchemaInterface | null = await SubcategorySchema.findOne({ name: subcategoryData.name });
 
       if (subcategory) {
         throw ApiError.BadRequest('Subcategory has not exist');
       }
 
       const subcategorySchema = await SubcategorySchema.create({ ...subcategoryData });
-      return new SubcategoryModel(subcategorySchema);
+      // return new SubcategoryModel(subcategorySchema);
+      return new SubcategoryModel({
+        ...subcategorySchema.toObject(),
+        _id: subcategorySchema._id.toString(),
+        categoryId: subcategorySchema.categoryId.toString(),
+      });
 
     } finally {
 

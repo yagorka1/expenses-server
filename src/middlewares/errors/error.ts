@@ -1,18 +1,19 @@
-import { NextFunction, Request, Response } from 'express';
+import { ErrorRequestHandler } from 'express';
 import { ErrorCode, ErrorTarget } from '../../constans/errors';
-import { HttpCode } from '../../errors/httpCode';
-import { ApiError } from '../../exceptions/api-error';
 
-export const errorMiddleware = (err: ApiError, req: Request, res: Response, next: NextFunction) => {
+export const errorMiddleware: ErrorRequestHandler = async (err, req, res, next) => {
   try {
     if (err && err.status) {
-      return res.status(err.status).json({ code: err.code, message: err.message, errors: err.errors})
+      res.status(err.status).json({
+        code: err.code,
+        message: err.message,
+        errors: err.errors,
+      });
+    } else {
+      res.status(500).json({ message: 'Server Error' });
     }
-
-    return res.status(500).json({message: 'Server Error'});
-
   } catch (error) {
-    res.status(HttpCode.INTERNAL_SERVER_ERROR).json({
+    res.status(500).json({
       errors: [
         {
           code: ErrorCode.INTERNAL_SERVER_ERROR,

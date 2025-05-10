@@ -19,7 +19,10 @@ class AuthService {
 
     const user = await UserSchema.create({ email, password: hashPassword, firstName, lastName, role: Roles.Admin, defaultCurrencyCode: DEFAULT_CURRENCY_CODE });
 
-    const userDto = new UserModel(user);
+    const userDto = new UserModel({
+      ...user.toObject(),
+      _id: user._id.toString(),
+    });
 
     const tokens = tokenService.generateTokens({ ...userDto });
 
@@ -42,7 +45,10 @@ class AuthService {
       throw ApiError.BadRequest('User not found');
     }
 
-    const userDto = new UserModel(user);
+    const userDto = new UserModel({
+      ...user.toObject(),
+      _id: user._id.toString(),
+    });
 
     const tokens = tokenService.generateTokens({ ...userDto });
 
@@ -67,7 +73,15 @@ class AuthService {
 
     // @ts-ignore
     const user = await UserSchema.findById(userData.id);
-    const userDto = new UserModel(user);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const userDto = new UserModel({
+      ...user.toObject(),
+      _id: user._id.toString(),
+    });
     const tokens = tokenService.generateTokens({ ...userDto });
 
     await tokenService.saveToken(userDto.id, tokens.refreshToken);

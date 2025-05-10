@@ -6,13 +6,11 @@ export class SubcategoryModel implements SubcategoryInterface {
   public categoryId: string;
   public name: string;
   public description: string;
-  public icon: string;
 
   constructor(data: SubcategorySchemaInterface) {
     this.id = data._id;
     this.name = data.name;
     this.description = data.description;
-    this.icon = data.icon;
     this.categoryId = data.categoryId;
   }
 }

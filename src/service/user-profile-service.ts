@@ -9,7 +9,15 @@ class UserProfileService {
 
   async getUserDataById(email: string): Promise<UserModel> {
     const user = await UserSchema.findOne({ email });
-    return new UserModel(user);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return new UserModel({
+      ...user.toObject(),
+      _id: user._id.toString(),
+    });
   }
 }
 
