@@ -7,6 +7,11 @@ export const authMiddleware = (req: any, res: any, next: any) => {
   try {
     const authorizationHeader = req.headers.authorization;
 
+    if (authorizationHeader === `Bearer ${process.env.BOT_TOKEN}`) {
+      req.user = { id: 'telegram-bot' };
+      return next();
+    }
+
     if (!authorizationHeader) {
       return next(ApiError.UnauthorizedError());
     }

@@ -3,4 +3,5 @@ export interface CreateSubcategoryInterface {
   description: string;
   icon?: string;
   categoryId: string;
+  isNecessary: boolean;
 }

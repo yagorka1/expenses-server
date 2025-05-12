@@ -4,4 +4,5 @@ export interface SubcategorySchemaInterface {
   name: string;
   description: string;
   icon?: string;
+  isNecessary: boolean;
 }

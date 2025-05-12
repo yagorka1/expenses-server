@@ -9,6 +9,7 @@ import { authMiddleware } from './middlewares/auth-middleware';
 import { currenciesRouter } from './routes/currencies';
 import { categoriesRouter } from './routes/categories';
 import dotenv from 'dotenv';
+import { expensesRouter } from './routes/expenses';
 dotenv.config();
 
 const app: Application = express();
@@ -30,6 +31,7 @@ app.use('/auth', authRouter);
 app.use('/profile', authMiddleware, profileRouter);
 app.use('/currencies', authMiddleware, currenciesRouter);
 app.use('/categories', authMiddleware, categoriesRouter);
+app.use('/expenses', authMiddleware, expensesRouter);
 
 app.use(errorMiddleware);
 

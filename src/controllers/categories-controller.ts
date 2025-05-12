@@ -17,7 +17,16 @@ class CategoriesController {
 
   async getSubcategories(req: any, res: any, next: any) {
     try {
-      const subcategories: SubcategoryModel[] = await categoriesService.getSubcategoriesList(req.user.id);
+      const subcategories: SubcategoryModel[] = await categoriesService.getSubcategoriesList(req.params.id);
+      return res.json({ data: subcategories });
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async getAllSubcategories(req: any, res: any, next: any) {
+    try {
+      const subcategories: SubcategoryModel[] = await categoriesService.getAllSubcategoriesList();
       return res.json({ data: subcategories });
     } catch (e) {
       next(e);
@@ -44,13 +53,14 @@ class CategoriesController {
 
   async createSubcategory(req: { body: CreateSubcategoryInterface, user: UserModel }, res: any, next: any) {
     try {
-      const { name, description, icon, categoryId } = req.body;
+      const { name, description, icon, categoryId, isNecessary } = req.body;
 
       const subcategoryData: CreateSubcategoryInterface = {
         name,
         description,
         icon,
         categoryId,
+        isNecessary
       };
 
       const subcategory: SubcategoryModel = await categoriesService.createSubcategory(subcategoryData);

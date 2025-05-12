@@ -18,11 +18,11 @@ class UserProfileController {
     try {
       const user: UserModel = await userProfileService.getUserDataById(req.user.email);
 
-      const currency: CurrencyModel = await currencyService.getCurrencyByCode(user.defaultCurrencyCode);
+      // const currency: CurrencyModel = await currencyService.getCurrencyByCode(user.defaultCurrencyCode);
 
       const profile = new UserProfileModel({
         user: user,
-        defaultCurrency: currency,
+        defaultCurrency: 'USD',
       });
 
       return res.json({ data: profile });

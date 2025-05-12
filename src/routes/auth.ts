@@ -10,6 +10,6 @@ router.post('/sign-in', authController.login);
 
 router.get('/refresh', authController.refresh);
 
-export const authRouter = router;
-
 router.post('/logout', authController.logout);
+
+export const authRouter = router;
