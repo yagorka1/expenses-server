@@ -4,4 +4,5 @@ export interface SubcategoryInterface {
   name: string;
   description: string;
   icon?: string;
+  isNecessary: boolean;
 }

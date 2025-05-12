@@ -7,7 +7,7 @@ import { CreateSubcategoryInterface } from '../interfaces/categories/create-subc
 import { SubcategoryModel } from '../models/category/subcategory-model';
 import { SubcategorySchema } from '../models/db/subcategory-schema';
 import { SubcategorySchemaInterface } from '../interfaces/categories/subcategory-schema-interface';
-import { UserModel } from '../models/user/user-model';
+import mongoose from 'mongoose';
 
 class CategoriesService {
   async getCategoriesList(): Promise<CategoryModel[]> {
@@ -34,7 +34,16 @@ class CategoriesService {
 
   async getSubcategoriesList(categoryId: string): Promise<SubcategoryModel[]> {
     try {
-      const subcategories: SubcategorySchemaInterface[] = await SubcategorySchema.find({ categoryId });
+      const subcategories = await SubcategorySchema.find({ categoryId: new mongoose.Types.ObjectId(categoryId) });
+      return subcategories.map((subcategory: SubcategorySchemaInterface) => new SubcategoryModel(subcategory)) || [];
+    } finally {
+
+    }
+  }
+
+  async getAllSubcategoriesList(): Promise<SubcategoryModel[]> {
+    try {
+      const subcategories = await SubcategorySchema.find();
       return subcategories.map((subcategory: SubcategorySchemaInterface) => new SubcategoryModel(subcategory)) || [];
     } finally {
 
