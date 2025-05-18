@@ -15,8 +15,8 @@ class ExpensesController {
 
   async getExpenseById(req: any, res: any, next: any) {
     try {
-      // const expense: ExpenseModel = await expensesService.getExpenseById(req.params.id);
-      // return res.json({ data: expense });
+      const expense: ExpenseModel = await expensesService.getExpenseById(req.params.id);
+      return res.json({ data: expense });
     } catch (e) {
       next(e);
     }

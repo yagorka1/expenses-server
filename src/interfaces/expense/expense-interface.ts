@@ -9,4 +9,5 @@ export interface ExpenseInterface {
   person: string;
   description: string;
   date: Date;
+  amounts: { [key: string]: number };
 }

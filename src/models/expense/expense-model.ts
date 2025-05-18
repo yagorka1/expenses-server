@@ -12,6 +12,7 @@ export class ExpenseModel implements ExpenseInterface {
   public subcategoryId: string;
   public subcategoryName: string;
   public description: string;
+  public amounts: { [key: string]: number };
 
   constructor(data: ExpenseSchemaInterface) {
     this.id = data._id;
@@ -24,5 +25,6 @@ export class ExpenseModel implements ExpenseInterface {
     this.subcategoryId = data.subcategoryId;
     this.subcategoryName = data.subcategoryName;
     this.description = data.description;
+    this.amounts = data.amounts;
   }
 }

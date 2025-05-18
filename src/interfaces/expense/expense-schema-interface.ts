@@ -9,4 +9,5 @@ export interface ExpenseSchemaInterface {
   person: string;
   description: string;
   date: Date;
+  amounts: { [key: string]: number };
 }
