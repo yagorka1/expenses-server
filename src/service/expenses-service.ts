@@ -10,6 +10,7 @@ import {
   EUR_CURRENCY_CODE,
   RSD_CURRENCY_CODE, RSD_TO_EUR_RATE,
 } from '../config/currencies';
+import { ApiError } from '../exceptions/api-error';
 
 class ExpensesService {
   async getExpensesList(): Promise<ExpenseModel[]> {
@@ -18,6 +19,17 @@ class ExpensesService {
       return expenses.map((category: ExpenseSchemaInterface) => new ExpenseModel(category)) || [];
     } finally {
 
+    }
+  }
+
+  async getExpenseById(id: string): Promise<ExpenseModel> {
+    try {
+      const expense: ExpenseSchemaInterface | null = await ExpenseSchema.findOne({ _id: id });
+      if (!expense) {
+        throw ApiError.BadRequest('Expense not found');
+      }
+      return new ExpenseModel(expense);
+    } finally {
     }
   }
 
