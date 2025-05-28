@@ -31,6 +31,16 @@ class ExpensesController {
       next(e);
     }
   }
+
+  async getExpensesStatistics(req: any, res: any, next: any) {
+    try {
+      const { type } = req.query;
+      const data: any = await expensesService.getStatistics(type);
+      return res.json({ data });
+    } catch (e) {
+      next(e);
+    }
+  }
 }
 
 export const expensesController: ExpensesController = new ExpensesController();
