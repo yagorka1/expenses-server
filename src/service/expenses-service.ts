@@ -75,8 +75,11 @@ class ExpensesService {
     try {
       const now = new Date();
 
-      let firstDayPrevWeek;
-      let lastDayPrevWeek;
+      let firstDay;
+      let lastDay;
+
+      let prevFirstDay;
+      let prevLastDay;
 
       if (type === StatisticsTimeEnum.WEEK) {
         const dayOfWeek = now.getDay();
@@ -84,40 +87,51 @@ class ExpensesService {
         const mondayThisWeek = new Date(now);
         mondayThisWeek.setDate(now.getDate() - diffToMonday);
 
-        firstDayPrevWeek = new Date(mondayThisWeek);
-        firstDayPrevWeek.setDate(mondayThisWeek.getDate() - 7);
+        firstDay = new Date(mondayThisWeek);
+        firstDay.setDate(mondayThisWeek.getDate() - 7);
+        prevFirstDay = new Date(mondayThisWeek);
+        prevFirstDay.setDate(mondayThisWeek.getDate() - 14);
 
+        lastDay = new Date(mondayThisWeek);
+        lastDay.setDate(mondayThisWeek.getDate() - 1);
+        prevLastDay = new Date(mondayThisWeek);
+        prevLastDay.setDate(mondayThisWeek.getDate() - 8);
 
-        lastDayPrevWeek = new Date(mondayThisWeek);
-        lastDayPrevWeek.setDate(mondayThisWeek.getDate() - 1);
-
-
-        firstDayPrevWeek.setHours(0, 0, 0, 0);
-        lastDayPrevWeek.setHours(23, 59, 59, 999);
+        firstDay.setHours(0, 0, 0, 0);
+        lastDay.setHours(23, 59, 59, 999);
+        prevFirstDay.setHours(0, 0, 0, 0);
+        prevLastDay.setHours(23, 59, 59, 999);
       }
 
       if (type === StatisticsTimeEnum.MONTH) {
         const currentMonth = now.getMonth();
         const currentYear = now.getFullYear();
 
-        const firstDayPrevMonth = new Date(currentYear, currentMonth - 1, 1);
-        const lastDayPrevMonth = new Date(currentYear, currentMonth, 0);
+        firstDay = new Date(currentYear, currentMonth - 1, 1);
+        lastDay = new Date(currentYear, currentMonth, 0);
 
-        firstDayPrevMonth.setHours(0, 0, 0, 0);
-        lastDayPrevMonth.setHours(23, 59, 59, 999);
+        prevFirstDay = new Date(currentYear, currentMonth - 2, 1);
+        prevLastDay = new Date(currentYear, currentMonth - 1, 0);
 
-        firstDayPrevWeek = firstDayPrevMonth;
-        lastDayPrevWeek = lastDayPrevMonth;
+        firstDay.setHours(0, 0, 0, 0);
+        lastDay.setHours(23, 59, 59, 999);
+        prevFirstDay.setHours(0, 0, 0, 0);
+        prevLastDay.setHours(23, 59, 59, 999);
       }
 
-
       const expenses: ExpenseSchemaInterface[] = await ExpenseSchema.find({
-        date: { $gte: firstDayPrevWeek, $lte: lastDayPrevWeek },
+        date: { $gte: firstDay, $lte: lastDay },
       });
 
+      const prevExpenses: ExpenseSchemaInterface[] = await ExpenseSchema.find({
+        date: { $gte: prevFirstDay, $lte: prevLastDay },
+      });
 
       const totalAmountInEUR: number = expenses.reduce((acc: number, expense: ExpenseSchemaInterface) => acc + expense?.amounts[EUR_CURRENCY_CODE], 0);
       const totalAmountInRSD: number = expenses.reduce((acc: number, expense: ExpenseSchemaInterface) => acc + expense?.amounts[RSD_CURRENCY_CODE], 0);
+
+      const prevTotalAmountInEUR: number = prevExpenses.reduce((acc: number, expense: ExpenseSchemaInterface) => acc + expense?.amounts[EUR_CURRENCY_CODE], 0);
+      const prevTotalAmountInRSD: number = prevExpenses.reduce((acc: number, expense: ExpenseSchemaInterface) => acc + expense?.amounts[RSD_CURRENCY_CODE], 0);
 
       const rawExpensesByCategory = expenses.reduce(
         (acc: { [category: string]: { EUR: number; RSD: number } }, expense) => {
@@ -182,7 +196,15 @@ class ExpensesService {
         {}
       );
 
-      return { totalAmountInEUR, totalAmountInRSD, sortedExpensesByCategory, sortedExpensesBySubcategory, expensesByPerson };
+      return {
+        totalAmountInEUR,
+        totalAmountInRSD,
+        sortedExpensesByCategory,
+        sortedExpensesBySubcategory,
+        expensesByPerson,
+        prevTotalAmountInEUR,
+        prevTotalAmountInRSD
+      };
     } finally {
     }
   }
