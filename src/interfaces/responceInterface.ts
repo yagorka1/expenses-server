@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorTarget } from '../constans/errors';
+import { ErrorCode, ErrorTarget } from '../constants/errors';
 
 export interface ICommonError {
   code: ErrorCode;

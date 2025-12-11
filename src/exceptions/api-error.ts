@@ -1,4 +1,4 @@
-import { ErrorCode } from '../constans/errors';
+import { ErrorCode } from '../constants/errors';
 
 export class ApiError extends Error {
   public status: number;

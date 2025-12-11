@@ -1,5 +1,5 @@
 import { ErrorRequestHandler } from 'express';
-import { ErrorCode, ErrorTarget } from '../../constans/errors';
+import { ErrorCode, ErrorTarget } from '../../constants/errors';
 
 export const errorMiddleware: ErrorRequestHandler = async (err, req, res, next) => {
   try {

@@ -1,24 +1,23 @@
-import express, { Application } from 'express';
-import { authRouter } from './routes/auth';
-import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import mongoose from 'mongoose';
-import { errorMiddleware } from './middlewares/errors/error';
-import { profileRouter } from './routes/profile';
-import { authMiddleware } from './middlewares/auth-middleware';
-import { currenciesRouter } from './routes/currencies';
-import { categoriesRouter } from './routes/categories';
+import cors from 'cors';
 import dotenv from 'dotenv';
+import express, { Application } from 'express';
+import { authMiddleware } from './middlewares/auth-middleware';
+import { errorMiddleware } from './middlewares/errors/error';
+import { authRouter } from './routes/auth';
+import { categoriesRouter } from './routes/categories';
+import { currenciesRouter } from './routes/currencies';
 import { expensesRouter } from './routes/expenses';
+import { profileRouter } from './routes/profile';
 dotenv.config();
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
 
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI).then(() => console.log('Connected to MongoDB'))
-    .catch((error) => console.log(error));
-}
+import { connectToDatabase } from './config/db';
+
+connectToDatabase();
+
 
 
 // Body parsing Middleware

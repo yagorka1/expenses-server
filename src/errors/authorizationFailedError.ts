@@ -1,4 +1,4 @@
-import { ErrorCode, ErrorTarget } from '../constans/errors';
+import { ErrorCode, ErrorTarget } from '../constants/errors';
 import { ICustomError } from './customErrorInterface';
 
 export class AuthorizationFailedError extends Error implements ICustomError {
