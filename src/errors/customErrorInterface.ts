@@ -1,4 +1,4 @@
-import { ErrorCode } from '../constans/errors';
+import { ErrorCode } from '../constants/errors';
 
 interface ICustomError {
   readonly code: ErrorCode;
