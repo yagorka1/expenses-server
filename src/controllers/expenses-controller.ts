@@ -1,6 +1,6 @@
 import { expensesService } from '../service/expenses-service';
 import { ExpenseModel } from '../models/expense/expense-model';
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 import { CreateExpenseInterface } from '../interfaces/expense/create-expense-interface';
 
 class ExpensesController {

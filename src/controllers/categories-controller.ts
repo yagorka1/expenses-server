@@ -1,4 +1,4 @@
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 import { CreateCategoryInterface } from '../interfaces/categories/create-category-interface';
 import { categoriesService } from '../service/categories-service';
 import { CategoryModel } from '../models/category/category-model';

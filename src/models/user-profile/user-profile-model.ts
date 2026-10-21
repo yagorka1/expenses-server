@@ -1,4 +1,4 @@
-import { UserModel } from '../user/user-model';
+import { UserModel } from '../user/user.dto';
 import { CurrencyModel } from '../currency/currency-model';
 import { UserProfileInterface } from '../../interfaces/user-profile/user-profile-interface';
 
