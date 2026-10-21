@@ -1,5 +1,5 @@
 import { UserSchema } from '../models/db/user-schema';
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 
 class UserProfileService {
   async getAllUsers() {

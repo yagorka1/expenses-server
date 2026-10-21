@@ -1,7 +1,7 @@
 import { tokenService } from '../service/token-service';
 import { ApiError } from '../exceptions/api-error';
 import { Roles } from '../enums/roles';
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 
 export const authMiddleware = (req: any, res: any, next: any) => {
   try {

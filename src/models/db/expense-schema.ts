@@ -11,7 +11,7 @@ const expenseSchema = new Schema({
   subcategoryName: { type: String, required: true },
   person: { type: String, required: true },
   date: { type: Date, required: true },
-  description: { type: String, required: true },
+  description: { type: String, default: '' },
   amounts: { type: Object, required: true },
 });
 

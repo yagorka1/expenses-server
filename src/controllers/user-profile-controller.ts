@@ -1,5 +1,5 @@
 import { userProfileService } from '../service/user-profile-service';
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 import { CurrencyModel } from '../models/currency/currency-model';
 import { currencyService } from '../service/currencies-service';
 import { UserProfileModel } from '../models/user-profile/user-profile-model';

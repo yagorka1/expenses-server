@@ -1,7 +1,7 @@
 import { tokenService } from './token-service';
 import { ApiError } from '../exceptions/api-error';
 import { UserSchema } from '../models/db/user-schema';
-import { UserModel } from '../models/user/user-model';
+import { UserModel } from '../models/user/user.dto';
 import { DEFAULT_CURRENCY_CODE } from '../config/currencies';
 import { Roles } from '../enums/roles';
 import { UserSchemaInterface } from '../interfaces/user/user-schema-interface';
